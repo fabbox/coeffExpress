@@ -1,0 +1,969 @@
+<!--
+* CoeffExpress -> index.html: Calculateur de moyenne pour préparer les concours 
+* des écoles de commerces, business & management; Simlulateur d'admissibilité
+* 2015-01-20
+* par fabbox, https://github.com/fabbox & http://coeffexpress.free.fr
+* Public Domain.
+* NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
+-->
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>CoeffExpress</title>
+        <meta name="description" content="Calculateur de moyenne pour préparer les concours des écoles de commerces, business & management. Simulateur d'admissibilité pour les banques de concours BCE et ECRICOME">
+        <meta name="viewport" content="width=device-width">
+
+        <style type="text/css">
+            html,
+            body{
+                width: 100%;
+
+                font-family: sans-serif;
+                margin: 0em;
+                padding: 0rem;
+                text-shadow: 0.1rem 0.1rem 0px rgba(255, 255, 255, 0.3);
+                text-align: justify;
+                color: #222;
+                background: #e0e5f5;
+
+                direction: ltr;
+                unicode-bidi: embed ;
+            }
+
+            .hidden{
+                display: none;
+            }
+
+            /* petit & grand écrans */
+            @media (max-width: 400px) {
+                html,body {
+                    font-size: 7px;
+                }
+            }
+
+            @media (min-width: 400px) {
+                html,body {
+                    font-size: 10px;
+                }
+            }
+
+            @media (max-width: 500px) {
+                table {
+                    font-size: 2.1rem;
+                    line-height: 3.2rem;
+                }
+
+                tr.concoursLine > td {
+                    padding-left: 0.5rem;
+                    height: 4.0rem;
+                }
+
+                th.admissibiliteTitle,
+                td.ecole{   
+                    padding-left:1rem;
+                }
+
+                td.admissibilite2014{
+                    padding-right: 2rem;
+                }
+            }
+
+            @media (min-width: 500px) {
+                table {
+                    font-size: 2.5rem;
+                    line-height: 4rem;
+                }
+
+                tr.concoursLine > td {
+                    padding-left: 1rem;
+                    height: 4.5rem;
+                }
+
+                th.admissibiliteTitle,
+                td.ecole{   
+                    padding-left:2rem;
+                }
+
+                td.admissibilite2014{
+                    padding-right: 4rem;
+                }
+            }
+
+            /* généralités*/
+            section{
+                width: 100%;
+                max-width: 750px;
+                margin-left: auto;
+                margin-right: auto;
+                background: #fff;
+                padding-left: 0;
+            }
+
+            article{
+                text-align: center;
+            }
+
+            header,
+            footer {
+                width: 100%;
+                background-color: #ff7400;
+                color: white;
+                text-align: center;
+                margin: 0;
+                border: 0;
+                padding: 0;
+            }
+
+            header {
+                height: 5rem;
+            }
+
+            footer {
+                height: 2rem;
+            }
+
+            header > h1 {
+                height: 5rem;
+
+                border:0;
+                padding: 0 1rem;
+                margin: 0;
+
+                line-height:5rem;
+                font-size: 3rem;
+                border: 0;
+                padding: 0;
+                margin: 0;
+            }
+
+            footer > div{
+                height: 2rem;
+                line-height: 2rem;
+            }
+
+            select{
+                font-family: sans-serif;
+                text-align: center;
+                border-style: none;
+                background: transparent;
+                background: white;
+                border-radius: 0.5rem;
+                width: auto;
+                font-size : 2.5rem;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+            }
+
+            select > .voie{
+                text-align: center;
+            }
+
+            h2{
+                line-height: 5rem;
+                font-size: 2.5rem;
+                color: white;
+                background-color: #3e5dbf;
+                font: 500 2.5rem/4rem sans-serif;
+                text-align: left;
+                padding-left: 3%;
+            }
+
+            /* Mes notes */
+            .inside{
+                line-height:4rem;
+
+                width: 90%;
+                padding: 0.5rem;
+                margin: 0.5rem;
+                font-size : 2.5rem;
+
+                margin-left:5%;
+                margin-right:5%;
+
+                border-radius: 1.0rem 1.0rem 3.0rem 1.0rem;
+            }
+
+            .choix{
+                background-color: #a6b4e2;
+            }
+
+            .matiere{
+                text-align: left;
+                background-color: #a6b4e2;
+            }
+
+            .matiere > label{
+                text-align: left;
+                margin-left: 2rem;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            input[type=number]::-webkit-inner-spin-button, 
+            input[type=number]::-webkit-outer-spin-button { 
+                -webkit-appearance: none; 
+                margin: 0; 
+            }
+
+            .matiere > input[type=number]{
+                font-family: sans-serif;
+                border: none;
+
+                margin: 0;
+                padding: 0;
+                margin-right: 2rem;
+
+                line-height:4rem;
+                height:4rem;
+                font-size : 2.5rem;
+                width: 8rem;
+                padding-right: 0.5rem;
+
+                text-align: right;
+                -moz-appearance:textfield;
+
+                float: right;
+                display: block;
+
+                background-color: white;
+                border-radius: 0.5rem;
+            }
+
+            /* LE bouton */
+            input[type="button"]:active
+            {
+                border-color: #008aaa;
+                background:#b16000;
+                color: #333;
+            }
+
+            input[type="button"]::-moz-focus-inner{
+                border: none;
+                outline: none;
+            }
+
+            input[type="button"]{
+                -webkit-appearance: none;
+
+                background-color: #ff7400;
+                border-color: #008EAB;
+                height: 7rem;
+
+                margin: 2rem 0px 1rem;
+                padding: 1.5rem 1.5rem;
+                display: inline-block;
+                vertical-align: middle;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+
+                border: 0.1rem solid #A6A6A6;
+                border-radius: 3rem;
+                font: 500 2.5rem/4rem sans-serif;
+                color: #fff;
+                font-weight: bold;
+                text-align: center;
+                text-shadow: 0.1rem 0.1rem 0px rgba(255, 255, 255, 0.3);
+                text-decoration: none;
+                outline: medium none;
+            }
+
+                        /* Tableau du profil */
+            table {
+                display: inline-table;
+                margin: 0em;
+
+                border-collapse: collapse;
+                border-spacing:0;
+                width: 100%;
+            }
+
+            tr:nth-child(2n+3){
+                background-color: #e0e5f5;
+            }
+
+            tr.concoursLine > td {
+                border-width: 2px;
+                border-style: solid;
+                border-left-style: none;
+                border-right-style: none;
+                background-color: white;
+                text-align: left;
+                font-weight: bold;
+            }
+
+            th.admissibiliteTitle,
+            td.ecole {   
+                text-align:left;;
+            }
+
+            td.admissibilite2014{
+                text-align: right;
+            }
+            
+            /* les icones sur les lignes des écoles*/
+            .icon{
+                display: block;
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-attachment: scroll;
+                background-size: 3.2rem;
+
+                font-size: 0px;
+                width: 3.5rem;
+                height: 4rem;
+                vertical-align: middle;
+                line-height: 4rem;
+                padding-left: 0.2rem;
+                text-align: center;
+            }
+
+            .ic-warning{
+                /*background-image: url("icons/warning_sign.png");*/    
+                background-image: url('data:image/png;base64,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');
+            }
+
+            .ic-ok{
+                /*background-image: url("icons/check_mark.png");*/
+                background-image: url('data:image/png;base64,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');
+            }
+
+            .ic-no{
+                /*background-image: url("icons/ballot_x.png");*/
+                background-image: url('data:image/png;base64,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');
+            }
+        </style>
+    </head>
+    <body>
+        <section class="drawer">
+            <header >
+                <h1>CoeffExpress</h1>
+            </header>
+
+            <article>
+                <div id="notes">
+                    <form>
+                        <div id="cellule_filiere" class="choix inside">
+                            <label for="filiere">Voie :</label>
+                            <select id="filiere" name="filieres">
+                                <option class="voie" value="eco" selected>Economique</option>
+                                <option class="voie" value="sci">Scientifique</option>
+                                <option class="voie" value="tech">Technologique</option>
+                            </select>
+                        </div>
+
+                        <h2>Mes notes (/20)</h2>
+
+                        <p class="matiere inside">
+                            <label for="math">Mathématiques</label>
+                            <input id="math" class="note" type="number" min="0" max="20" step="0.01">
+                        </p>
+                        <p class="matiere inside">
+                            <label for="cg">Culture générale</label>
+                            <input id="cg" class="note" type="number" min="0" max="20" step="0.01">
+                        </p>
+                        <p class="matiere inside">
+                            <label for="philo">Philosophie</label>
+                            <input id="philo" class="note" type="number" min="0" max="20" step="0.01">
+                        </p>
+                        <p class="matiere inside">
+                            <label for="lv1">LV1</label>
+                            <input id="lv1" class="note" type="number" min="0" max="20" step="0.01">
+                        </p>
+                        <p class="matiere inside">
+                            <label for="lv2">LV2</label>
+                            <input id="lv2" class="note" type="number" min="0" max="20" step="0.01">
+                        </p>
+                        <p class="matiere inside speTech hidden">
+                            <label for="mgmt">Management</label>
+                            <input id="mgmt" class="note" type="number" min="0" max="20" step="0.01">
+                        </p>
+                        <p class="matiere inside speTech hidden">
+                            <label for="eco">Economie</label>
+                            <input id="eco" class="note" type="number" min="0" max="20" step="0.01">
+                        </p>
+                        <p class="matiere inside speTech hidden">
+                            <label for="droit">Droit</label>
+                            <input id="droit" class="note" type="number" min="0" max="20" step="0.01">
+                        </p>
+                        <p class="matiere inside speSci hidden">
+                            <label for="hgg">Hist., Géo. & Géopo.</label>
+                            <input id="hgg" class="note" type="number" min="0" max="20" step="0.01">
+                        </p>                   
+                        <p class="matiere inside speEco">
+                            <label for="esh">Econ., Soc. & Hist.</label>
+                            <input id="esh" class="note" type="number" min="0" max="20" step="0.01">
+                        </p>
+                        <p>
+                            <input type="button" id="calcul" value="Calculer mon profil" tabindex="2">
+                        </p>
+                    </form>
+                </div>
+                <div id="profil">
+                    <h2>Mon profil</h2>
+                    <table>
+                        <tr>
+                            <th colspan="2" class="noborder admissibiliteTitle">Admissibilité :</th>
+                            <th>Barre 2014</th>
+                            <th>Mon profil</th>
+                        </tr>
+
+                        <!--Concours ECRICOME-->
+                        <tr class="concoursLine">
+                            <td colspan="4" class="concours">Ecricome</td>
+                        </tr>
+                        <tr id="neoma">
+                            <td class="icon"></td>
+                            <td class="ecole">Néoma</td>
+                            <td class="admissibilite2014">11,25</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+                        <tr id="kedge">
+                            <td class="icon"></td>
+                            <td class="ecole">Kedge</td>
+                            <td class="admissibilite2014">9,90</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+                        <tr id="icnbs">
+                            <td class="icon"></td>
+                            <td class="ecole">ICN BS (Nancy)</td>
+                            <td class="admissibilite2014">8,00</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+
+                        <!--Concours BCE-->
+                        <tr class="concoursLine">
+                            <td colspan="4" class="concours" >BCE</td>
+                        </tr>            
+                        <!--"branche" CCIP-->
+                        <tr id="hecparis">
+                            <td class="icon"></td>
+                            <td class="ecole">HEC Paris</td>
+                            <td class="admissibilite2014">13,93</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+                        <tr id="essec">
+                            <td class="icon"></td>
+                            <td class="ecole">ESSEC</td>
+                            <td class="admissibilite2014">13,15</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+                        <tr id="escpeurope">
+                            <td class="icon"></td>
+                            <td class="ecole">ESCP-Europe</td>
+                            <td class="admissibilite2014">12,98</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+                        <tr id="emlyon">
+                            <td class="icon"></td>
+                            <td class="ecole">EM Lyon</td>
+                            <td class="admissibilite2014">12,37</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+                        <tr id="edhec">
+                            <td class="icon"></td>
+                            <td class="ecole">EDHEC</td>
+                            <td class="admissibilite2014">12,58</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+                        <tr id="audencia">
+                            <td class="icon"></td>
+                            <td class="ecole">Audencia Nantes</td>
+                            <td class="admissibilite2014">12,00</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+                        <tr id="grenoblebs">
+                            <td class="icon"></td>
+                            <td class="ecole">Grenoble BS</td>
+                            <td class="admissibilite2014">11,50</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+                        <tr id="toulousebs">
+                            <td class="icon"></td>
+                            <td class="ecole">Toulouse BS</td>
+                            <td class="admissibilite2014">10,50</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+                        <tr id="skemabs">
+                            <td class="icon"></td>
+                            <td class="ecole">SKEMA BS</td>
+                            <td class="admissibilite2014">9,00</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+                        <tr id="telecommgmt">
+                            <td class="icon"></td>
+                            <td class="ecole">Telecom Management</td>
+                            <td class="admissibilite2014">9,10</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+
+                        <!--"branche" ESC-->
+                        <tr id="montpellierbs">                 
+                            <td class="icon"></td>
+                            <td class="ecole">Montpellier BS</td>
+                            <td class="admissibilite2014">8,30</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+                        <tr id="escrennes">
+                            <td class="icon"></td>
+                            <td class="ecole">ESC Rennes</td>
+                            <td class="admissibilite2014">8,10</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+                        <tr id="emstrasbourg">
+                            <td class="icon"></td>
+                            <td class="ecole">EM Strasbourg</td>
+                            <td class="admissibilite2014">8,10</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+                        <tr id="escdijon">
+                            <td class="icon"></td>
+                            <td class="ecole">ESC Dijon-Bourgogne</td>
+                            <td class="admissibilite2014">7,01</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+                        <tr id="iscparis">
+                            <td class="icon"></td>
+                            <td class="ecole">ISC Paris</td>
+                            <td class="admissibilite2014">6,52</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+                        <tr id="isg">
+                            <td class="icon"></td>
+                            <td class="ecole">ISG</td>
+                            <td class="admissibilite2014">6,51</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+                        <tr id="esclarochelle">
+                            <td class="icon"></td>
+                            <td class="ecole">ESC La Rochelle</td>
+                            <td class="admissibilite2014">6,90</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+                        <tr id="insignis">
+                            <td class="icon"></td>
+                            <td class="ecole">INSIGNIS (INSEEC)</td>
+                            <td class="admissibilite2014">5,50</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+                        <tr id="emnormandie">
+                            <td class="icon"></td>
+                            <td class="ecole">EM Normandie</td>
+                            <td class="admissibilite2014">6,00</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+                        <tr id="esctroyes">
+                            <td class="icon"></td>
+                            <td class="ecole">ESC Troyes</td>
+                            <td class="admissibilite2014">5,30</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+                        <tr id="escpau">
+                            <td class="icon"></td>
+                            <td class="ecole">ESC Pau</td>
+                            <td class="admissibilite2014">4,50</td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+
+                        <!--"branche" Affiliées-->
+                        <tr class="concoursLine">
+                            <td colspan="4" class="concours" >Affiliées</td>
+                        </tr>
+
+                        <tr id="enscachan">
+                            <td class="icon"></td>
+                            <td class="ecole">ENS Cachan</td>
+                            <td class="admissibilite2014"></td>
+                            <td class=moyenneProfil></td>
+                        </tr>
+
+                    </table>
+                </div>
+            </article>
+
+            <footer>
+                <div> Public Domain - NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
+                </div> 
+            </footer>
+        </section>
+
+        <!--        /*
+        * from : https://developer.mozilla.org/fr/docs/Web/API/Element.classList
+        * Pour que "classList" ne plante pas sur les vieux android
+        * ce n'est pas de moi, on n'y touche pas. 
+        */-->
+        <script>
+            /*
+             * classList.js: Cross-browser full element.classList implementation.
+             * 2012-11-15
+             *
+             * By Eli Grey, http://eligrey.com
+             * Public Domain.
+             * NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
+             */
+            /*global self, document, DOMException */
+            /*! @source http://purl.eligrey.com/github/classList.js/blob/master/classList.js*/
+
+            if (typeof document !== "undefined" && !("classList" in document.createElement("a"))) {
+                (function (view) {
+                    "use strict";
+                    if (!('HTMLElement' in view) && !('Element' in view)) {
+                        return;
+                    }
+
+                    var classListProp = "classList",
+                            protoProp = "prototype",
+                            elemCtrProto = (view.HTMLElement || view.Element)[protoProp],
+                            objCtr = Object,
+                            strTrim = String[protoProp].trim
+                            || function () {
+                                return this.replace(/^\s+|\s+$/g, "");
+                            },
+                            arrIndexOf = Array[protoProp].indexOf
+                            || function (item) {
+                                var i = 0,
+                                        len = this.length;
+                                for (; i < len; i++) {
+                                    if (i in this && this[i] === item) {
+                                        return i;
+                                    }
+                                }
+                                return -1;
+                            },
+                            DOMEx = function (type, message) {
+                                this.name = type;
+                                this.code = DOMException[type];
+                                this.message = message;
+                            },
+                            checkTokenAndGetIndex = function (classList, token) {
+                                if (token === "") {
+                                    throw new DOMEx(
+                                            "SYNTAX_ERR",
+                                            "An invalid or illegal string was specified"
+                                            );
+                                }
+                                if (/\s/.test(token)) {
+                                    throw new DOMEx(
+                                            "INVALID_CHARACTER_ERR",
+                                            "String contains an invalid character"
+                                            );
+                                }
+                                return arrIndexOf.call(classList, token);
+                            },
+                            ClassList = function (elem) {
+                                var trimmedClasses = strTrim.call(elem.className),
+                                        classes = trimmedClasses ? trimmedClasses.split(/\s+/) : [],
+                                        i = 0,
+                                        len = classes.length;
+                                for (; i < len; i++) {
+                                    this.push(classes[i]);
+                                }
+                                this._updateClassName = function () {
+                                    elem.className = this.toString();
+                                };
+                            },
+                            classListProto = ClassList[protoProp] = [],
+                            classListGetter = function () {
+                                return new ClassList(this);
+                            };
+                    // Most DOMException implementations don't allow calling DOMException's toString()
+                    // on non-DOMExceptions. Error's toString() is sufficient here.
+                    DOMEx[protoProp] = Error[protoProp];
+                    classListProto.item = function (i) {
+                        return this[i] || null;
+                    };
+                    classListProto.contains = function (token) {
+                        token += "";
+                        return checkTokenAndGetIndex(this, token) !== -1;
+                    };
+                    classListProto.add = function () {
+                        var tokens = arguments,
+                                i = 0,
+                                l = tokens.length,
+                                token,
+                                updated = false;
+                        do {
+                            token = tokens[i] + "";
+                            if (checkTokenAndGetIndex(this, token) === -1) {
+                                this.push(token);
+                                updated = true;
+                            }
+                        } while (++i < l);
+
+                        if (updated) {
+                            this._updateClassName();
+                        }
+                    };
+                    classListProto.remove = function () {
+                        var tokens = arguments,
+                                i = 0,
+                                l = tokens.length,
+                                token,
+                                updated = false;
+                        do {
+                            token = tokens[i] + "";
+                            var index = checkTokenAndGetIndex(this, token);
+                            if (index !== -1) {
+                                this.splice(index, 1);
+                                updated = true;
+                            }
+                        } while (++i < l);
+
+                        if (updated) {
+                            this._updateClassName();
+                        }
+                    };
+                    classListProto.toggle = function (token, forse) {
+                        token += "";
+
+                        var result = this.contains(token),
+                                method = result ? forse !== true && "remove" : forse !== false && "add";
+
+                        if (method) {
+                            this[method](token);
+                        }
+
+                        return result;
+                    };
+                    classListProto.toString = function () {
+                        return this.join(" ");
+                    };
+
+                    if (objCtr.defineProperty) {
+                        var classListPropDesc = {
+                            get: classListGetter,
+                            enumerable: true,
+                            configurable: true
+                        };
+                        try {
+                            objCtr.defineProperty(elemCtrProto, classListProp, classListPropDesc);
+                        } catch (ex) { // IE 8 doesn't support enumerable:true
+                            if (ex.number === -0x7FF5EC54) {
+                                classListPropDesc.enumerable = false;
+                                objCtr.defineProperty(elemCtrProto, classListProp, classListPropDesc);
+                            }
+                        }
+                    } else if (objCtr[protoProp].__defineGetter__) {
+                        elemCtrProto.__defineGetter__(classListProp, classListGetter);
+                    }
+                }(self));
+            }
+        </script>
+
+        <!--/* Script pour le calcul de note */-->
+        <script>
+
+            "use strict";
+
+            /* Tableaux des écoles, concours, barre d'adimissibilité, épreuves et coefficients par filière*/
+            /* n.b. : pour l'attribution des coeff/matiere, la philosophie correspond à l'epreuve de 
+             * dissertation de culture générale tandis que la culture générale correspond à la note 
+             * de contraction/syntèse de texte
+             * pour la filière technologique, les notes d'économie et de droit compte pour chacune 
+             * pour moitié pour l'épreuve d'éco-droit
+             * */
+
+            var ecoles = {
+                id: ["neoma", "kedge", "icnbs", "hecparis", "essec", "escpeurope", "emlyon",
+                    "edhec", "audencia", "grenoblebs", "toulousebs", "skemabs", "telecommgmt",
+                    "montpellierbs", "escrennes", "emstrasbourg", "escdijon", "iscparis",
+                    "esclarochelle", "insignis", "emnormandie", "esctroyes", "escpau", "isg",
+                    "enscachan"],
+                filiere: {
+                    eco: {
+                        matieres: ["math", "philo", "cg", "esh", "lv1", "lv2"],
+                        coeff: {
+                            math: [5, 4, 4, 8, 8, 7, 6, 8, 5, 9, 7, 4, 5, 5, 4, 4, 3, 3, 4, 3, 4, 4, 3, 3, 0],
+                            philo: [4, 5, 5, 6, 6, 5, 5, 5, 8, 2, 5, 4, 5, 4, 4, 4, 4, 4, 6, 6, 5, 5, 5, 4, 0],
+                            cg: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 5, 4, 4, 3, 3, 4, 3, 3, 3, 3, 4, 3, 3, 0],
+                            esh: [6, 6, 6, 7, 7, 7, 8, 7, 6, 8, 7, 7, 7, 7, 6, 6, 7, 8, 7, 5, 7, 7, 8, 8, 0],
+                            lv1: [4, 4, 4, 4, 4, 5, 5, 5, 5, 4, 5, 5, 6, 6, 8, 8, 7, 7, 6, 7, 6, 6, 7, 7, 0],
+                            lv2: [3, 3, 3, 2, 2, 3, 3, 2, 3, 4, 3, 5, 3, 4, 5, 5, 5, 5, 4, 6, 5, 4, 4, 5, 0]
+                        },
+                        sommeCoeff: [25, 25, 25, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0]
+                    }, tech: {
+                        matieres: ["math", "philo", "mgmt", "eco", "droit", "lv1", "lv2", "cg"],
+                        coeff: {
+                            math: [6, 6, 6, 7, 5, 5, 3, 5, 4, 8, 6, 6, 5, 5, 4, 3, 2, 3, 3, 4, 4, 4, 3, 3, 0],
+                            philo: [4, 3, 4, 3, 4, 4, 4, 4, 3, 2, 2, 3, 4, 3, 4, 3, 3, 3, 4, 2, 4, 4, 6, 3, 0],
+                            mgmt: [6, 6, 6, 6, 6, 7, 8, 5, 10, 8, 8, 7, 5, 8, 7, 9, 10, 9, 10, 8, 8, 7, 7, 9, 0],
+                            eco: [2.5, 3, 2.5, 2.5, 3, 2.5, 2.5, 2.5, 3, 3, 3, 3, 2.5, 2.5, 2, 2.5, 2.5, 2.5, 2.5, 3.5, 2.5, 2.5, 2.5, 2.5, 0],
+                            droit: [2.5, 3, 2.5, 2.5, 3, 2.5, 2.5, 2.5, 3, 3, 3, 3, 2.5, 2.5, 2, 2.5, 2.5, 2.5, 2.5, 3.5, 2.5, 2.5, 2.5, 2.5, 0],
+                            lv1: [2, 3, 2, 4, 4, 4, 4, 5, 3, 2, 3, 3, 4, 3, 5, 4, 4, 4, 3, 3, 3, 3, 4, 4, 0],
+                            lv2: [2, 1, 2, 2, 2, 2, 3, 3, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 2, 2, 3, 3, 2, 3, 0],
+                            cg: [0, 0, 0, 3, 3, 3, 3, 3, 2, 2, 3, 3, 4, 3, 3, 3, 3, 3, 3, 4, 3, 4, 3, 3, 0]
+                        },
+                        sommeCoeff: [25, 25, 25, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0]
+                    },
+                    sci: {
+                        matieres: ["math", "philo", "cg", "hgg", "lv1", "lv2"],
+                        coeff: {
+                            math: [6, 5, 5, 11, 11, 10, 9, 10, 5, 8, 8, 5, 8, 6, 4, 5, 5, 4, 4, 4, 6, 5, 4, 4, 0],
+                            philo: [4, 5, 5, 4, 5, 4, 5, 5, 8, 2, 4, 5, 4, 4, 4, 4, 4, 5, 6, 5, 4, 5, 7, 5, 0],
+                            cg: [3, 3, 3, 3, 2, 3, 3, 3, 4, 3, 3, 5, 3, 4, 4, 3, 3, 3, 3, 3, 3, 4, 3, 3, 0],
+                            hgg: [5, 5, 5, 6, 6, 5, 5, 5, 5, 6, 6, 4, 6, 6, 5, 5, 6, 5, 6, 5, 5, 6, 3, 5, 0],
+                            lv1: [4, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 6, 8, 8, 7, 8, 7, 7, 7, 6, 9, 8, 0],
+                            lv2: [3, 3, 3, 2, 2, 3, 3, 2, 3, 5, 3, 5, 3, 4, 5, 5, 5, 5, 4, 6, 5, 4, 4, 5, 0]
+                        },
+                        sommeCoeff: [25, 25, 25, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0]
+                    }
+                }
+            };
+
+            /* Visibilité des matières en fonction de la filière*/
+            (function () {
+                document.getElementById("filiere")
+                        .addEventListener('change', function (e) {
+                            // console.log(e.target.value);
+                            var speTech = document.querySelectorAll(".speTech"),
+                                    speEco = document.querySelector(".speEco"),
+                                    speSci = document.querySelector(".speSci");
+
+                            switch (e.target.value) {
+                                case "eco":
+                                    unhide(speEco);
+                                    hide(speSci);
+                                    hide(speTech[0]);
+                                    hide(speTech[1]);
+                                    hide(speTech[2]);
+                                    break;
+                                case "sci":
+                                    hide(speEco);
+                                    unhide(speSci);
+                                    hide(speTech[0]);
+                                    hide(speTech[1]);
+                                    hide(speTech[2]);
+                                    break;
+                                case "tech":
+                                    hide(speEco);
+                                    hide(speSci);
+                                    unhide(speTech[0]);
+                                    unhide(speTech[1]);
+                                    unhide(speTech[2]);
+                                    break;
+                                default:
+                                    console.log("Larry, il y a un problème");
+                            }
+                        });
+
+                function unhide(elt) {
+                    if (elt.className.indexOf("hidden") >= 0) {
+                        elt.classList.remove('hidden');
+                    }
+                }
+
+                function hide(elt) {
+                    if (elt.className.indexOf("hidden") !== 0) {
+                        elt.querySelector("input").value = '';
+                        elt.classList.add('hidden');
+                    }
+                }
+            })();
+
+            /* calcul du profil du candidat*/
+            (function () {
+
+                document.getElementById("calcul").addEventListener('click', function () {
+
+                    /* récupération des notes*/
+                    var filiere = document.getElementById("filiere").value,
+                            matieres = ecoles.filiere[filiere].matieres,
+                            notes = new Array(matieres),
+                            delta_warning = 0.5;
+
+                    for (var i = matieres.length - 1; i >= 0; i--) {
+                        notes[matieres[i]] = document.getElementById(matieres[i]).value;
+
+                        if (typeof notes[matieres[i]] === 'undefined' || notes[matieres[i]] === ""
+                                || notes[matieres[i]] < 0 || notes[matieres[i]] > 20) {
+                            alert("Toutes les notes doivent être renseignées et comprises entre 0 et 20.");
+                            return false;
+                        }
+                    }
+
+                    /* calcul de la moyenne du candidat par école */
+                    var moyennes = new Array(ecoles.id);
+
+                    for (var i = ecoles.id.length - 1; i >= 0; i--) {
+                        var ecole = ecoles.id[i],
+                                admissibilite = parseFloat(document.getElementById(ecole).querySelector(".admissibilite2014").textContent),
+                                somme_tmp = 0;
+
+                        for (var j = matieres.length - 1; j >= 0; j--) {
+                            somme_tmp += ecoles.filiere[filiere].coeff[matieres[j]][i] * notes[matieres[j]];
+                        }
+
+                        moyennes[ecole] = somme_tmp / ecoles.filiere[filiere].sommeCoeff[i];
+
+                        if (!isNaN(moyennes[ecole])) {
+                            document.getElementById(ecole)
+                                    .querySelector(".moyenneProfil")
+                                    .textContent = moyennes[ecole].toFixed(2).replace(".", ",");
+
+                            var iconCell = document.getElementById(ecole).querySelector(".icon");
+                            iconCell.className = "icon";
+
+                            if (moyennes[ecole] > admissibilite + delta_warning) {
+                                iconCell.classList.add("ic-ok");
+                            } else if (moyennes[ecole] < admissibilite - delta_warning) {
+                                iconCell.classList.add("ic-no");
+                            } else {
+                                iconCell.classList.add("ic-warning");
+                            }
+                        }
+                    }
+
+                    /* traitement des résultats pour cachan*/
+                    var admissibilite_cachan_ref = ["hecparis", "essec", "escpeurope"],
+                            admissibilite_cachan = [];
+
+                    for (var i = admissibilite_cachan_ref.length - 1; i >= 0; i--) {
+                        var test_admiss = document.getElementById(admissibilite_cachan_ref[i]).querySelector(".icon").className;
+
+                        console.log(test_admiss);
+
+                        if (test_admiss.indexOf("ic-ok") >= 0) {
+                            console.log("ok");
+                            admissibilite_cachan[i] = 2;
+                        } else if (test_admiss.indexOf("ic-warning") >= 0) {
+                            console.log("warn");
+                            admissibilite_cachan[i] = 1;
+                        } else {
+                            console.log("no");
+                            admissibilite_cachan[i] = 0;
+                        }
+                    }
+
+                    var alors_cachan = Math.max.apply(null, admissibilite_cachan),
+                            iconCell = document.getElementById("enscachan").querySelector(".icon");
+
+                    iconCell.className = "icon";
+                    switch (alors_cachan) {
+                        case 0:
+                            iconCell.classList.add("ic-no");
+                            break;
+                        case 1:
+                            iconCell.classList.add("ic-warning");
+                            break;
+                        case 2:
+                            iconCell.classList.add("ic-ok");
+                            break;
+                    }
+
+                    document.getElementById("profil").scrollIntoView(true);
+                });
+
+            })();
+
+            /* (ré)-initialisation */
+            (function () {
+                document.getElementById("filiere").value = "eco";
+                var inputs = document.getElementById("notes").querySelectorAll("input.note");
+                for (var i = inputs.length - 1; i >= 0; i--) {
+                    inputs[i].value = '';
+                }
+            })();
+        </script>    
+    </body>
+</html>
