@@ -9,6 +9,8 @@
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
     <head>
+        <link rel="stylesheet" href="style.css" type="text/css"/>
+
         <meta charset="utf-8">
         <title>CoeffExpress</title>
         <meta name="description" content="Calculateur de moyenne pour préparer les concours des écoles de commerces, business & management. Simulateur d'admissibilité pour les banques de concours BCE et ECRICOME">
@@ -269,7 +271,7 @@
                 outline: medium none;
             }
 
-                        /* Tableau du profil */
+            /* Tableau du profil */
             table {
                 display: inline-table;
                 margin: 0em;
@@ -301,7 +303,7 @@
             td.admissibilite2014{
                 text-align: right;
             }
-            
+
             /* les icones sur les lignes des écoles*/
             .icon{
                 display: block;
@@ -333,10 +335,18 @@
                 /*background-image: url("icons/ballot_x.png");*/
                 background-image: url('data:image/png;base64,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');
             }
+            
+            /* class used for js*/
+            .note,
+            .moyenneProfil,
+            .speEco,
+            .speSci,
+            .speTech{}
+            
         </style>
     </head>
     <body>
-        <section class="drawer">
+        <section>
             <header >
                 <h1>CoeffExpress</h1>
             </header>
@@ -396,7 +406,7 @@
                             <input id="esh" class="note" type="number" min="0" max="20" step="0.01">
                         </p>
                         <p>
-                            <input type="button" id="calcul" value="Calculer mon profil" tabindex="2">
+                            <input type="button" id="calcul" value="Calculer mon profil">
                         </p>
                     </form>
                 </div>
@@ -404,14 +414,14 @@
                     <h2>Mon profil</h2>
                     <table>
                         <tr>
-                            <th colspan="2" class="noborder admissibiliteTitle">Admissibilité :</th>
+                            <th colspan="2">Admissibilité :</th>
                             <th>Barre 2014</th>
                             <th>Mon profil</th>
                         </tr>
 
                         <!--Concours ECRICOME-->
                         <tr class="concoursLine">
-                            <td colspan="4" class="concours">Ecricome</td>
+                            <td colspan="4">Ecricome</td>
                         </tr>
                         <tr id="neoma">
                             <td class="icon"></td>
@@ -434,7 +444,7 @@
 
                         <!--Concours BCE-->
                         <tr class="concoursLine">
-                            <td colspan="4" class="concours" >BCE</td>
+                            <td colspan="4"  >BCE</td>
                         </tr>            
                         <!--"branche" CCIP-->
                         <tr id="hecparis">
@@ -568,7 +578,7 @@
 
                         <!--"branche" Affiliées-->
                         <tr class="concoursLine">
-                            <td colspan="4" class="concours" >Affiliées</td>
+                            <td colspan="4" >Affiliées</td>
                         </tr>
 
                         <tr id="enscachan">
@@ -915,41 +925,37 @@
                     }
 
                     /* traitement des résultats pour cachan*/
-                    var admissibilite_cachan_ref = ["hecparis", "essec", "escpeurope"],
-                            admissibilite_cachan = [];
+                    (function () {
+                        var admissibilite_cachan_ref = ["hecparis", "essec", "escpeurope"],
+                                admissibilite_cachan = [];
 
-                    for (var i = admissibilite_cachan_ref.length - 1; i >= 0; i--) {
-                        var test_admiss = document.getElementById(admissibilite_cachan_ref[i]).querySelector(".icon").className;
-
-                        console.log(test_admiss);
-
-                        if (test_admiss.indexOf("ic-ok") >= 0) {
-                            console.log("ok");
-                            admissibilite_cachan[i] = 2;
-                        } else if (test_admiss.indexOf("ic-warning") >= 0) {
-                            console.log("warn");
-                            admissibilite_cachan[i] = 1;
-                        } else {
-                            console.log("no");
-                            admissibilite_cachan[i] = 0;
+                        for (var i = admissibilite_cachan_ref.length - 1; i >= 0; i--) {
+                            var test_admiss = document.getElementById(admissibilite_cachan_ref[i]).querySelector(".icon").className;
+                            if (test_admiss.indexOf("ic-ok") >= 0) {
+                                admissibilite_cachan[i] = 2;
+                            } else if (test_admiss.indexOf("ic-warning") >= 0) {
+                                admissibilite_cachan[i] = 1;
+                            } else {
+                                admissibilite_cachan[i] = 0;
+                            }
                         }
-                    }
 
-                    var alors_cachan = Math.max.apply(null, admissibilite_cachan),
-                            iconCell = document.getElementById("enscachan").querySelector(".icon");
+                        var alors_cachan = Math.max.apply(null, admissibilite_cachan),
+                                iconCell = document.getElementById("enscachan").querySelector(".icon");
 
-                    iconCell.className = "icon";
-                    switch (alors_cachan) {
-                        case 0:
-                            iconCell.classList.add("ic-no");
-                            break;
-                        case 1:
-                            iconCell.classList.add("ic-warning");
-                            break;
-                        case 2:
-                            iconCell.classList.add("ic-ok");
-                            break;
-                    }
+                        iconCell.className = "icon";
+                        switch (alors_cachan) {
+                            case 0:
+                                iconCell.classList.add("ic-no");
+                                break;
+                            case 1:
+                                iconCell.classList.add("ic-warning");
+                                break;
+                            case 2:
+                                iconCell.classList.add("ic-ok");
+                                break;
+                        }
+                    })();
 
                     document.getElementById("profil").scrollIntoView(true);
                 });
