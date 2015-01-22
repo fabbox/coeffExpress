@@ -108,6 +108,11 @@
                 margin: 1rem 5%;
             }
 
+            a{
+                color: #3f3f3f;
+                font-weight:bold;
+            }
+            
             article{
                 text-align: center;
             }
@@ -128,7 +133,7 @@
             }
 
             footer {
-                height: 2rem;
+                height: 4rem;
             }
 
             header > h1 {
@@ -146,8 +151,13 @@
             }
 
             footer > div{
-                height: 2rem;
+                /*height: 2rem;*/
                 line-height: 2rem;
+                text-shadow: none;
+            }
+            footer > div > a{
+                color: #fff;
+                font-weight:normal;
             }
 
             select{
@@ -363,9 +373,9 @@
 
             <article>
 
-                <p>Sélectionnez votre voie, entrez vos notes et calculez votre 
-                    profil d'admissibilité aux écoles des banques de concours 
-                    ECRICOME et BCE. 
+                <p>Sélectionne ta voie, entre tes notes et calcule ton 
+                    profil d'admissibilité aux écoles des concours 
+                    <a target="_blank" href="http://www.ecricome.org/">ECRICOME</a> et <a target="_blank" href="http://www.concours-bce.com/">BCE</a>. 
                 </p>
 
                 <div id="notes">
@@ -608,7 +618,13 @@
             </article>
 
             <footer>
-                <div> Public Domain - NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
+                <div> Public Domain - NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.<br>
+                    Please report bugs and requests on 
+                        <a class="external" href="https://github.com/fabbox/coeffExpress">github/fabbox</a>
+                        or to 
+                        <a class="external" href="&#109;&#x61;&#x69;&#x6C;&#116;&#x6F;:f&#98;&#x6F;&#x78;&#x2E;&#x64;&#101;&#x76;&#64;&#x67;&#x6D;&#97;&#x69;l&#x2E;&#99;o&#x6D;">
+                            f&#98;&#x6F;&#x78;&#x2E;&#x64;&#101;&#x76;&#64;&#x67;&#x6D;&#97;&#x69;l&#x2E;&#99;o&#x6D;
+                        </a>.
                 </div> 
             </footer>
         </section>
