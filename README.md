@@ -23,8 +23,7 @@ Please report bugs and requests on
 Privacy Policy
 --------------
 
-This application doesn't collect, use, store, and share or disclose any
-information about the user or any other person.
+This application uses [phpMyVisit provided by free.fr](http://st.free.fr/) for web analytics.
 
 Licenses
 --------
