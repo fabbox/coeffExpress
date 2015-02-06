@@ -9,10 +9,6 @@
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
     <head>
-        <link rel="stylesheet" href="style.css" type="text/css"/>
-        <link rel="stylesheet" href="style.css" type="text/css">
-
-
         <meta charset="utf-8">
         <title>CoeffExpress</title>
         <meta name="description" content="Calculateur de moyenne pour préparer les concours des écoles de commerces, business & management. Simulateur d'admissibilité pour les banques de concours BCE et ECRICOME">
@@ -255,7 +251,7 @@
             }
 
             .matiere > input[type=number]{
-                -moz-appearance:textfield;
+                -moz-appearance: textfield;
             }
 
             /* LE bouton */
@@ -649,7 +645,9 @@
                     <!-- phpmyvisites -->
                     <a href="http://st.free.fr/" title="phpMyVisites | Open source web analytics" class="freeCounter"
                        onclick=" window.open(this.href);
-                               return(false); ">
+                               return(false);
+                       ">
+
                         <script type="text/javascript">
                             <!--
                             var a_vars = Array();
@@ -659,16 +657,16 @@
                             var phpmyvisitesURL = "http://st.free.fr/phpmyvisites.php";
                             //-->
                         </script>
-                        
+
                         <script language="javascript" src="http://st.free.fr/phpmyvisites.js" type="text/javascript"></script>
-                        
+
                         <object>
                             <noscript><p>phpMyVisites | Open source web analytics
                                 <img src="http://st.free.fr/phpmyvisites.php" alt="Statistics" style="border:0" />
                             </p>
                             </noscript>
                         </object>
-                        
+
                     </a>
                     <!-- /phpmyvisites --> 
 
@@ -676,11 +674,13 @@
             </footer>
         </section>
 
-        <!--        /*
+        <!--       
+        /*
         * from : https://developer.mozilla.org/fr/docs/Web/API/Element.classList
         * Pour que "classList" ne plante pas sur les vieux android
         * ce n'est pas de moi, on n'y touche pas. 
         */-->
+
         <script>
                             /*
                              * classList.js: Cross-browser full element.classList implementation.
@@ -841,204 +841,204 @@
 
         <!--/* Script pour le calcul de note */-->
         <script>
-
-            "use strict";
-
-            /* Tableaux des écoles, concours, barre d'adimissibilité, épreuves et coefficients par filière*/
-            /* n.b. : pour l'attribution des coeff/matiere, la philosophie correspond à l'epreuve de 
-             * dissertation de culture générale tandis que la culture générale correspond à la note 
-             * de contraction/syntèse de texte
-             * pour la filière technologique, les notes d'économie et de droit compte pour chacune 
-             * pour moitié pour l'épreuve d'éco-droit
-             * */
-
-            var ecoles = {
-                id: ["neoma", "kedge", "icnbs", "hecparis", "essec", "escpeurope", "emlyon",
-                    "edhec", "audencia", "grenoblebs", "toulousebs", "skemabs", "telecommgmt",
-                    "montpellierbs", "escrennes", "emstrasbourg", "escdijon", "iscparis",
-                    "esclarochelle", "insignis", "emnormandie", "esctroyes", "escpau", "isg",
-                    "enscachan"],
-                filiere: {
-                    eco: {
-                        matieres: ["math", "philo", "cg", "esh", "lv1", "lv2"],
-                        coeff: {
-                            math: [5, 4, 4, 8, 8, 7, 6, 8, 5, 9, 7, 4, 5, 5, 4, 4, 3, 3, 4, 3, 4, 4, 3, 3, 0],
-                            philo: [4, 5, 5, 6, 6, 5, 5, 5, 8, 2, 5, 4, 5, 4, 4, 4, 4, 4, 6, 6, 5, 5, 5, 4, 0],
-                            cg: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 5, 4, 4, 3, 3, 4, 3, 3, 3, 3, 4, 3, 3, 0],
-                            esh: [6, 6, 6, 7, 7, 7, 8, 7, 6, 8, 7, 7, 7, 7, 6, 6, 7, 8, 7, 5, 7, 7, 8, 8, 0],
-                            lv1: [4, 4, 4, 4, 4, 5, 5, 5, 5, 4, 5, 5, 6, 6, 8, 8, 7, 7, 6, 7, 6, 6, 7, 7, 0],
-                            lv2: [3, 3, 3, 2, 2, 3, 3, 2, 3, 4, 3, 5, 3, 4, 5, 5, 5, 5, 4, 6, 5, 4, 4, 5, 0]
-                        },
-                        sommeCoeff: [25, 25, 25, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0]
-                    }, tech: {
-                        matieres: ["math", "philo", "mgmt", "eco", "droit", "lv1", "lv2", "cg"],
-                        coeff: {
-                            math: [6, 6, 6, 7, 5, 5, 3, 5, 4, 8, 6, 6, 5, 5, 4, 3, 2, 3, 3, 4, 4, 4, 3, 3, 0],
-                            philo: [4, 3, 4, 3, 4, 4, 4, 4, 3, 2, 2, 3, 4, 3, 4, 3, 3, 3, 4, 2, 4, 4, 6, 3, 0],
-                            mgmt: [6, 6, 6, 6, 6, 7, 8, 5, 10, 8, 8, 7, 5, 8, 7, 9, 10, 9, 10, 8, 8, 7, 7, 9, 0],
-                            eco: [2.5, 3, 2.5, 2.5, 3, 2.5, 2.5, 2.5, 3, 3, 3, 3, 2.5, 2.5, 2, 2.5, 2.5, 2.5, 2.5, 3.5, 2.5, 2.5, 2.5, 2.5, 0],
-                            droit: [2.5, 3, 2.5, 2.5, 3, 2.5, 2.5, 2.5, 3, 3, 3, 3, 2.5, 2.5, 2, 2.5, 2.5, 2.5, 2.5, 3.5, 2.5, 2.5, 2.5, 2.5, 0],
-                            lv1: [2, 3, 2, 4, 4, 4, 4, 5, 3, 2, 3, 3, 4, 3, 5, 4, 4, 4, 3, 3, 3, 3, 4, 4, 0],
-                            lv2: [2, 1, 2, 2, 2, 2, 3, 3, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 2, 2, 3, 3, 2, 3, 0],
-                            cg: [0, 0, 0, 3, 3, 3, 3, 3, 2, 2, 3, 3, 4, 3, 3, 3, 3, 3, 3, 4, 3, 4, 3, 3, 0]
-                        },
-                        sommeCoeff: [25, 25, 25, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0]
-                    },
-                    sci: {
-                        matieres: ["math", "philo", "cg", "hgg", "lv1", "lv2"],
-                        coeff: {
-                            math: [6, 5, 5, 11, 11, 10, 9, 10, 5, 8, 8, 5, 8, 6, 4, 5, 5, 4, 4, 4, 6, 5, 4, 4, 0],
-                            philo: [4, 5, 5, 4, 5, 4, 5, 5, 8, 2, 4, 5, 4, 4, 4, 4, 4, 5, 6, 5, 4, 5, 7, 5, 0],
-                            cg: [3, 3, 3, 3, 2, 3, 3, 3, 4, 3, 3, 5, 3, 4, 4, 3, 3, 3, 3, 3, 3, 4, 3, 3, 0],
-                            hgg: [5, 5, 5, 6, 6, 5, 5, 5, 5, 6, 6, 4, 6, 6, 5, 5, 6, 5, 6, 5, 5, 6, 3, 5, 0],
-                            lv1: [4, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 6, 8, 8, 7, 8, 7, 7, 7, 6, 9, 8, 0],
-                            lv2: [3, 3, 3, 2, 2, 3, 3, 2, 3, 5, 3, 5, 3, 4, 5, 5, 5, 5, 4, 6, 5, 4, 4, 5, 0]
-                        },
-                        sommeCoeff: [25, 25, 25, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0]
-                    }
-                }
-            };
-
-            /* Visibilité des matières en fonction de la filière*/
             (function () {
-                document.getElementById("filiere")
-                        .addEventListener('change', function (e) {
-                            // console.log(e.target.value);
-                            var speTech = document.querySelectorAll(".speTech"),
-                                    speEco = document.querySelector(".speEco"),
-                                    speSci = document.querySelector(".speSci");
+                "use strict";
 
-                            switch (e.target.value) {
-                                case "eco":
-                                    unhide(speEco);
-                                    hide(speSci);
-                                    hide(speTech[0]);
-                                    hide(speTech[1]);
-                                    hide(speTech[2]);
-                                    break;
-                                case "sci":
-                                    hide(speEco);
-                                    unhide(speSci);
-                                    hide(speTech[0]);
-                                    hide(speTech[1]);
-                                    hide(speTech[2]);
-                                    break;
-                                case "tech":
-                                    hide(speEco);
-                                    hide(speSci);
-                                    unhide(speTech[0]);
-                                    unhide(speTech[1]);
-                                    unhide(speTech[2]);
-                                    break;
-                                default:
-                                    console.log("Larry, il y a un problème");
+                /* Tableaux des écoles, concours, barre d'adimissibilité, épreuves et coefficients par filière*/
+                /* n.b. : pour l'attribution des coeff/matiere, la philosophie correspond à l'epreuve de 
+                 * dissertation de culture générale tandis que la culture générale correspond à la note 
+                 * de contraction/syntèse de texte
+                 * pour la filière technologique, les notes d'économie et de droit compte pour chacune 
+                 * pour moitié pour l'épreuve d'éco-droit
+                 * */
+
+                var ecoles = {
+                    id: ["neoma", "kedge", "icnbs", "hecparis", "essec", "escpeurope", "emlyon",
+                        "edhec", "audencia", "grenoblebs", "toulousebs", "skemabs", "telecommgmt",
+                        "montpellierbs", "escrennes", "emstrasbourg", "escdijon", "iscparis",
+                        "esclarochelle", "insignis", "emnormandie", "esctroyes", "escpau", "isg",
+                        "enscachan"],
+                    filiere: {
+                        eco: {
+                            matieres: ["math", "philo", "cg", "esh", "lv1", "lv2"],
+                            coeff: {
+                                math: [5, 4, 4, 8, 8, 7, 6, 8, 5, 9, 7, 4, 5, 5, 4, 4, 3, 3, 4, 3, 4, 4, 3, 3, 0],
+                                philo: [4, 5, 5, 6, 6, 5, 5, 5, 8, 2, 5, 4, 5, 4, 4, 4, 4, 4, 6, 6, 5, 5, 5, 4, 0],
+                                cg: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 5, 4, 4, 3, 3, 4, 3, 3, 3, 3, 4, 3, 3, 0],
+                                esh: [6, 6, 6, 7, 7, 7, 8, 7, 6, 8, 7, 7, 7, 7, 6, 6, 7, 8, 7, 5, 7, 7, 8, 8, 0],
+                                lv1: [4, 4, 4, 4, 4, 5, 5, 5, 5, 4, 5, 5, 6, 6, 8, 8, 7, 7, 6, 7, 6, 6, 7, 7, 0],
+                                lv2: [3, 3, 3, 2, 2, 3, 3, 2, 3, 4, 3, 5, 3, 4, 5, 5, 5, 5, 4, 6, 5, 4, 4, 5, 0]
+                            },
+                            sommeCoeff: [25, 25, 25, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0]
+                        }, tech: {
+                            matieres: ["math", "philo", "mgmt", "eco", "droit", "lv1", "lv2", "cg"],
+                            coeff: {
+                                math: [6, 6, 6, 7, 5, 5, 3, 5, 4, 8, 6, 6, 5, 5, 4, 3, 2, 3, 3, 4, 4, 4, 3, 3, 0],
+                                philo: [4, 3, 4, 3, 4, 4, 4, 4, 3, 2, 2, 3, 4, 3, 4, 3, 3, 3, 4, 2, 4, 4, 6, 3, 0],
+                                mgmt: [6, 6, 6, 6, 6, 7, 8, 5, 10, 8, 8, 7, 5, 8, 7, 9, 10, 9, 10, 8, 8, 7, 7, 9, 0],
+                                eco: [2.5, 3, 2.5, 2.5, 3, 2.5, 2.5, 2.5, 3, 3, 3, 3, 2.5, 2.5, 2, 2.5, 2.5, 2.5, 2.5, 3.5, 2.5, 2.5, 2.5, 2.5, 0],
+                                droit: [2.5, 3, 2.5, 2.5, 3, 2.5, 2.5, 2.5, 3, 3, 3, 3, 2.5, 2.5, 2, 2.5, 2.5, 2.5, 2.5, 3.5, 2.5, 2.5, 2.5, 2.5, 0],
+                                lv1: [2, 3, 2, 4, 4, 4, 4, 5, 3, 2, 3, 3, 4, 3, 5, 4, 4, 4, 3, 3, 3, 3, 4, 4, 0],
+                                lv2: [2, 1, 2, 2, 2, 2, 3, 3, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 2, 2, 3, 3, 2, 3, 0],
+                                cg: [0, 0, 0, 3, 3, 3, 3, 3, 2, 2, 3, 3, 4, 3, 3, 3, 3, 3, 3, 4, 3, 4, 3, 3, 0]
+                            },
+                            sommeCoeff: [25, 25, 25, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0]
+                        },
+                        sci: {
+                            matieres: ["math", "philo", "cg", "hgg", "lv1", "lv2"],
+                            coeff: {
+                                math: [6, 5, 5, 11, 11, 10, 9, 10, 5, 8, 8, 5, 8, 6, 4, 5, 5, 4, 4, 4, 6, 5, 4, 4, 0],
+                                philo: [4, 5, 5, 4, 5, 4, 5, 5, 8, 2, 4, 5, 4, 4, 4, 4, 4, 5, 6, 5, 4, 5, 7, 5, 0],
+                                cg: [3, 3, 3, 3, 2, 3, 3, 3, 4, 3, 3, 5, 3, 4, 4, 3, 3, 3, 3, 3, 3, 4, 3, 3, 0],
+                                hgg: [5, 5, 5, 6, 6, 5, 5, 5, 5, 6, 6, 4, 6, 6, 5, 5, 6, 5, 6, 5, 5, 6, 3, 5, 0],
+                                lv1: [4, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 6, 8, 8, 7, 8, 7, 7, 7, 6, 9, 8, 0],
+                                lv2: [3, 3, 3, 2, 2, 3, 3, 2, 3, 5, 3, 5, 3, 4, 5, 5, 5, 5, 4, 6, 5, 4, 4, 5, 0]
+                            },
+                            sommeCoeff: [25, 25, 25, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0]
+                        }
+                    }
+                };
+
+                /* Visibilité des matières en fonction de la filière*/
+                (function () {
+                    document.getElementById("filiere")
+                            .addEventListener('change', function (e) {
+                                // console.log(e.target.value);
+                                var speTech = document.querySelectorAll(".speTech"),
+                                        speEco = document.querySelector(".speEco"),
+                                        speSci = document.querySelector(".speSci");
+
+                                switch (e.target.value) {
+                                    case "eco":
+                                        unhide(speEco);
+                                        hide(speSci);
+                                        hide(speTech[0]);
+                                        hide(speTech[1]);
+                                        hide(speTech[2]);
+                                        break;
+                                    case "sci":
+                                        hide(speEco);
+                                        unhide(speSci);
+                                        hide(speTech[0]);
+                                        hide(speTech[1]);
+                                        hide(speTech[2]);
+                                        break;
+                                    case "tech":
+                                        hide(speEco);
+                                        hide(speSci);
+                                        unhide(speTech[0]);
+                                        unhide(speTech[1]);
+                                        unhide(speTech[2]);
+                                        break;
+                                    default:
+                                        console.log("Larry, il y a un problème");
+                                }
+                            });
+
+                    function unhide(elt) {
+                        if (elt.className.indexOf("hidden") >= 0) {
+                            elt.classList.remove('hidden');
+                        }
+                    }
+
+                    function hide(elt) {
+                        if (elt.className.indexOf("hidden") !== 0) {
+                            elt.querySelector("input").value = '';
+                            elt.classList.add('hidden');
+                        }
+                    }
+                })();
+
+                /* calcul du profil du candidat*/
+                (function () {
+
+                    document.getElementById("calcul").addEventListener('click', function () {
+
+                        /* récupération des notes*/
+                        var filiere = document.getElementById("filiere").value,
+                                matieres = ecoles.filiere[filiere].matieres,
+                                notes = new Array(matieres),
+                                delta_warning = 0.5;
+
+                        for (var i = matieres.length - 1; i >= 0; i--) {
+                            notes[matieres[i]] = document.getElementById(matieres[i]).value;
+
+                            if (typeof notes[matieres[i]] === 'undefined' || notes[matieres[i]] === ""
+                                    || notes[matieres[i]] < 0 || notes[matieres[i]] > 20) {
+                                alert("Toutes les notes doivent être renseignées et comprises entre 0 et 20.");
+                                return false;
                             }
-                        });
-
-                function unhide(elt) {
-                    if (elt.className.indexOf("hidden") >= 0) {
-                        elt.classList.remove('hidden');
-                    }
-                }
-
-                function hide(elt) {
-                    if (elt.className.indexOf("hidden") !== 0) {
-                        elt.querySelector("input").value = '';
-                        elt.classList.add('hidden');
-                    }
-                }
-            })();
-
-            /* calcul du profil du candidat*/
-            (function () {
-
-                document.getElementById("calcul").addEventListener('click', function () {
-
-                    /* récupération des notes*/
-                    var filiere = document.getElementById("filiere").value,
-                            matieres = ecoles.filiere[filiere].matieres,
-                            notes = new Array(matieres),
-                            delta_warning = 0.5;
-
-                    for (var i = matieres.length - 1; i >= 0; i--) {
-                        notes[matieres[i]] = document.getElementById(matieres[i]).value;
-
-                        if (typeof notes[matieres[i]] === 'undefined' || notes[matieres[i]] === ""
-                                || notes[matieres[i]] < 0 || notes[matieres[i]] > 20) {
-                            alert("Toutes les notes doivent être renseignées et comprises entre 0 et 20.");
-                            return false;
-                        }
-                    }
-
-                    /* calcul de la moyenne du candidat par école */
-                    var moyennes = new Array(ecoles.id);
-
-                    for (var i = ecoles.id.length - 1; i >= 0; i--) {
-                        var ecole = ecoles.id[i],
-                                admissibilite = parseFloat(document.getElementById(ecole).querySelector(".admissibilite2014").textContent),
-                                somme_tmp = 0;
-
-                        for (var j = matieres.length - 1; j >= 0; j--) {
-                            somme_tmp += ecoles.filiere[filiere].coeff[matieres[j]][i] * notes[matieres[j]];
                         }
 
-                        moyennes[ecole] = somme_tmp / ecoles.filiere[filiere].sommeCoeff[i];
+                        /* calcul de la moyenne du candidat par école */
+                        var moyennes = new Array(ecoles.id);
 
-                        if (!isNaN(moyennes[ecole])) {
-                            document.getElementById(ecole)
-                                    .querySelector(".moyenneProfil")
-                                    .textContent = moyennes[ecole].toFixed(2).replace(".", ",");
+                        for (var i = ecoles.id.length - 1; i >= 0; i--) {
+                            var ecole = ecoles.id[i],
+                                    admissibilite = parseFloat(document.getElementById(ecole).querySelector(".admissibilite2014").textContent),
+                                    somme_tmp = 0;
 
-                            var iconCell = document.getElementById(ecole).querySelector(".icon");
+                            for (var j = matieres.length - 1; j >= 0; j--) {
+                                somme_tmp += ecoles.filiere[filiere].coeff[matieres[j]][i] * notes[matieres[j]];
+                            }
+
+                            moyennes[ecole] = somme_tmp / ecoles.filiere[filiere].sommeCoeff[i];
+
+                            if (!isNaN(moyennes[ecole])) {
+                                document.getElementById(ecole)
+                                        .querySelector(".moyenneProfil")
+                                        .textContent = moyennes[ecole].toFixed(2).replace(".", ",");
+
+                                var iconCell = document.getElementById(ecole).querySelector(".icon");
+                                iconCell.className = "icon";
+
+                                if (moyennes[ecole] > admissibilite + delta_warning) {
+                                    iconCell.classList.add("ic-ok");
+                                } else if (moyennes[ecole] < admissibilite - delta_warning) {
+                                    iconCell.classList.add("ic-no");
+                                } else {
+                                    iconCell.classList.add("ic-warning");
+                                }
+                            }
+                        }
+
+                        /* traitement des résultats pour cachan*/
+                        (function () {
+                            var admissibilite_cachan_ref = ["hecparis", "essec", "escpeurope"],
+                                    admissibilite_cachan = [];
+
+                            for (var i = admissibilite_cachan_ref.length - 1; i >= 0; i--) {
+                                var test_admiss = document.getElementById(admissibilite_cachan_ref[i]).querySelector(".icon").className;
+                                if (test_admiss.indexOf("ic-ok") >= 0) {
+                                    admissibilite_cachan[i] = 2;
+                                } else if (test_admiss.indexOf("ic-warning") >= 0) {
+                                    admissibilite_cachan[i] = 1;
+                                } else {
+                                    admissibilite_cachan[i] = 0;
+                                }
+                            }
+
+                            var alors_cachan = Math.max.apply(null, admissibilite_cachan),
+                                    iconCell = document.getElementById("enscachan").querySelector(".icon");
+
                             iconCell.className = "icon";
-
-                            if (moyennes[ecole] > admissibilite + delta_warning) {
-                                iconCell.classList.add("ic-ok");
-                            } else if (moyennes[ecole] < admissibilite - delta_warning) {
-                                iconCell.classList.add("ic-no");
-                            } else {
-                                iconCell.classList.add("ic-warning");
+                            switch (alors_cachan) {
+                                case 0:
+                                    iconCell.classList.add("ic-no");
+                                    break;
+                                case 1:
+                                    iconCell.classList.add("ic-warning");
+                                    break;
+                                case 2:
+                                    iconCell.classList.add("ic-ok");
+                                    break;
                             }
-                        }
-                    }
+                        })();
 
-                    /* traitement des résultats pour cachan*/
-                    (function () {
-                        var admissibilite_cachan_ref = ["hecparis", "essec", "escpeurope"],
-                                admissibilite_cachan = [];
+                        document.getElementById("profil").scrollIntoView(true);
+                    });
 
-                        for (var i = admissibilite_cachan_ref.length - 1; i >= 0; i--) {
-                            var test_admiss = document.getElementById(admissibilite_cachan_ref[i]).querySelector(".icon").className;
-                            if (test_admiss.indexOf("ic-ok") >= 0) {
-                                admissibilite_cachan[i] = 2;
-                            } else if (test_admiss.indexOf("ic-warning") >= 0) {
-                                admissibilite_cachan[i] = 1;
-                            } else {
-                                admissibilite_cachan[i] = 0;
-                            }
-                        }
-
-                        var alors_cachan = Math.max.apply(null, admissibilite_cachan),
-                                iconCell = document.getElementById("enscachan").querySelector(".icon");
-
-                        iconCell.className = "icon";
-                        switch (alors_cachan) {
-                            case 0:
-                                iconCell.classList.add("ic-no");
-                                break;
-                            case 1:
-                                iconCell.classList.add("ic-warning");
-                                break;
-                            case 2:
-                                iconCell.classList.add("ic-ok");
-                                break;
-                        }
-                    })();
-
-                    document.getElementById("profil").scrollIntoView(true);
-                });
-
-            })();
+                })();
 
 //            (function () {
 //                /* test pour garder les zéro après la virgule dans les champs input type="number" */
@@ -1065,13 +1065,15 @@
 //                }
 //            })();
 
-            /* (ré)-initialisation */
-            (function () {
-                document.getElementById("filiere").value = "eco";
-                var inputs = document.getElementById("notes").querySelectorAll("input.note");
-                for (var i = inputs.length - 1; i >= 0; i--) {
-                    inputs[i].value = '';
-                }
+                /* (ré)-initialisation */
+                (function () {
+                    document.getElementById("filiere").value = "eco";
+                    var inputs = document.getElementById("notes").querySelectorAll("input.note");
+                    for (var i = inputs.length - 1; i >= 0; i--) {
+                        inputs[i].value = '';
+                    }
+                })();
+
             })();
         </script>    
 
