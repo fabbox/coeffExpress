@@ -967,7 +967,7 @@ var ecoles = {
 
             for (var i = ecoles.id.length - 1; i >= 0; i--) {
                 var ecole = ecoles.id[i],
-                        admissibilite = parseFloat(document.getElementById(ecole).querySelector(".admissibilite2017").textContent),
+                        admissibilite = parseFloat(document.getElementById(ecole).querySelector(".admissibilite2017").textContent.replace(",", ".")),
                         somme_tmp = 0;
 
                 for (var j = matieres.length - 1; j >= 0; j--) {
@@ -983,6 +983,14 @@ var ecoles = {
 
                     var iconCell = document.getElementById(ecole).querySelector(".icon");
                     iconCell.className = "icon";
+
+                    console.log("ecole")
+
+                    console.log(ecole)
+                    console.log(moyennes[ecole]);
+                    console.log((admissibilite + delta_warning));
+                    console.log(admissibilite);
+                    console.log(delta_warning);
 
                     if (moyennes[ecole] > admissibilite + delta_warning) {
                         iconCell.classList.add("ic-ok");
