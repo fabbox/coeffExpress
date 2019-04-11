@@ -439,7 +439,7 @@
                         <p class="matiere inside speSci hidden">
                             <label for="hgg">Hist., Géo. & Géopo.</label>
                             <input id="hgg" class="note" type="number" min="0" max="20" step="0.01">
-                        </p>                   
+                        </p>
                         <p class="matiere inside speEco">
                             <label for="esh">Econ., Soc. & Hist.</label>
                             <input id="esh" class="note" type="number" min="0" max="20" step="0.01">
@@ -477,7 +477,7 @@
                         <!--Concours BCE-->
                         <tr class="concoursLine">
                             <td colspan="4"  >BCE</td>
-                        </tr>            
+                        </tr>
                         <!--"branche" CCIP-->
                         <tr id="hecparis">
                             <td class="icon"></td>
@@ -485,7 +485,7 @@
                             <td class="admissibilite2017">14,05</td>
                             <td class=moyenneProfil></td>
                         </tr>
-                        
+
                         <tr id="essec">
                             <td class="icon"></td>
                             <td class="ecole">ESSEC BS</td>
@@ -534,7 +534,7 @@
                             <td class="admissibilite2017">9,20</td>
                             <td class=moyenneProfil></td>
                         </tr>
-                        <tr id="montpellierbs">                 
+                        <tr id="montpellierbs">
                             <td class="icon"></td>
                             <td class="ecole">Montpellier BS</td>
                             <td class="admissibilite2017">8,65</td>
@@ -542,7 +542,7 @@
                         </tr>
                         <tr id="telecommgmt">
                             <td class="icon"></td>
-                            <td class="ecole">Telecom EM</td>
+                            <td class="ecole">IMT BS</td>
                             <td class="admissibilite2017">8,60</td>
                             <td class=moyenneProfil></td>
                         </tr>
@@ -566,7 +566,7 @@
                         </tr>
                         <tr id="esclarochelle">
                             <td class="icon"></td>
-                            <td class="ecole">ESC La Rochelle</td>
+                            <td class="ecole">La Rochelle BS</td>
                             <td class="admissibilite2017">7,25</td>
                             <td class=moyenneProfil></td>
                         </tr>
@@ -578,7 +578,7 @@
                         </tr>
                         <tr id="inseec">
                             <td class="icon"></td>
-                            <td class="ecole">INSEEC</td>
+                            <td class="ecole">INSEEC SB&E</td>
                             <td class="admissibilite2017">6,50</td>
                             <td class=moyenneProfil></td>
                         </tr>
@@ -593,7 +593,7 @@
                             <td class="ecole">ICN BS</td>
                             <td class="admissibilite2017">6,00</td>
                             <td class=moyenneProfil></td>
-                        </tr>    
+                        </tr>
                         <tr id="escclermont">
                             <td class="icon"></td>
                             <td class="ecole">ESC Clermont</td>
@@ -608,10 +608,10 @@
                         </tr>
                         <tr id="escpau">
                             <td class="icon"></td>
-                            <td class="ecole">ESC Pau</td>
+                            <td class="ecole">ESC Pau BS</td>
                             <td class="admissibilite2017">5,90</td>
                             <td class=moyenneProfil></td>
-                        </tr>        
+                        </tr>
                         <tr id="isg">
                             <td class="icon"></td>
                             <td class="ecole">ISG Int. BS</td>
@@ -623,7 +623,8 @@
                             <td class="ecole">Brest BS</td>
                             <td class="admissibilite2017">5,56</td>
                             <td class=moyenneProfil></td>
-                        </tr> 
+                        </tr>
+
                     </table>
                 </div>
             </article>
@@ -848,48 +849,49 @@
  * */
 
 var ecoles = {
-    id: ["kedge", "neoma", "emnormandie", "esclarochelle", "escclermont", "iscparis", "esctroyes", "emstrasbourg", "montpellierbs", "escrennes", "audencia", "brestbs", "escdijon", "edhec", "emlyon", "escpeurope", "essec", "grenoblebs", "escpau", "hecparis", "icnbs", "inseec", "isg", "skemabs", "telecommgmt", "toulousebs"],
+    id: ["kedge", "neoma", "emstrasbourg", "montpellierbs", "escrennes", "audencia", "brestbs", "escdijon", "emnormandie", "edhec", "emlyon", "escpau", "escpeurope", "essec", "grenoblebs", "escclermont", "hecparis", "icnbs", "inseec", "telecommgmt", "iscparis", "isg", "esclarochelle", "skemabs", "esctroyes", "toulousebs"],
     filiere: {
          sci: {
-                   matieres: ["cg", "lv1", "philo", "hgg", "math", "lv2"],
+                   matieres: ["cg", "philo", "hgg", "math", "lv1", "lv2"],
                    coeff: {
-                     math: [5, 6, 6, 5, 5, 4, 4, 5, 6, 5, 8, 4, 5, 10, 9, 10, 11, 8, 4, 11, 5, 4, 4, 5, 5, 8],
-                     philo: [5, 4, 4, 5, 4, 5, 4, 4, 4, 5, 5, 6, 4, 5, 5, 4, 5, 2, 7, 4, 6, 5, 5, 5, 5, 4],
-                     cg: [3, 3, 3, 3, 3, 3, 4, 3, 4, 5, 4, 4, 3, 3, 3, 3, 2, 3, 3, 3, 4, 3, 3, 5, 4, 3],
-                     hgg: [5, 5, 5, 6, 6, 5, 5, 5, 6, 4, 5, 6, 5, 5, 5, 5, 6, 6, 3, 6, 5, 5, 5, 4, 6, 6],
-                     lv1: [4, 4, 7, 7, 7, 8, 8, 8, 6, 6, 5, 7, 8, 5, 5, 5, 4, 6, 9, 4, 6, 8, 8, 6, 6, 5],
-                     lv2: [3, 3, 5, 4, 5, 5, 5, 5, 4, 5, 3, 3, 5, 2, 3, 3, 2, 5, 4, 2, 4, 5, 5, 5, 4, 4]
+                     math: [5, 6, 5, 6, 5, 8, 4, 5, 6, 10, 9, 4, 10, 11, 8, 5, 11, 5, 4, 6, 4, 4, 5, 5, 4, 8],
+                     philo: [5, 4, 4, 4, 5, 5, 6, 4, 4, 5, 5, 7, 4, 5, 2, 4, 4, 6, 5, 5, 5, 5, 5, 5, 4, 4],
+                     cg: [3, 3, 3, 4, 5, 4, 4, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 4, 3, 3, 3, 3, 3, 5, 4, 3],
+                     hgg: [5, 5, 5, 6, 4, 5, 6, 5, 5, 5, 5, 3, 5, 6, 6, 6, 6, 5, 5, 6, 5, 5, 6, 4, 5, 6],
+                     lv1: [4, 4, 8, 6, 6, 5, 7, 8, 7, 5, 5, 9, 5, 4, 6, 7, 4, 6, 8, 6, 8, 8, 7, 6, 8, 5],
+                     lv2: [3, 3, 5, 4, 5, 3, 3, 5, 5, 2, 3, 4, 3, 2, 5, 5, 2, 4, 5, 4, 5, 5, 4, 5, 5, 4]
                         },
                    sommeCoeff: [25, 25, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30]
               },
          tech: {
-                   matieres: ["cg", "lv1", "eco", "philo", "mgmt", "math", "lv2", "droit"],
+                   matieres: ["cg", "philo", "mgmt", "math", "eco", "lv1", "lv2", "droit"],
                    coeff: {
-                     math: [6, 6, 4, 4, 4, 3, 3, 4, 5, 6, 4, 3, 2, 5, 3, 5, 5, 8, 3, 6, 5, 3, 3, 6, 6, 6],
-                     philo: [3, 4, 4, 4, 3, 3, 4, 4, 3, 3, 3, 4, 3, 4, 4, 4, 4, 2, 6, 4, 3, 3, 3, 3, 4, 2],
-                     mgmt: [6, 6, 8, 9, 10, 9, 7, 7, 8, 7, 10, 8, 10, 5, 8, 7, 6, 8, 7, 6, 9, 9, 9, 7, 6, 8],
-                     eco: [3.0, 2.5, 2.5, 2.5, 2.5, 2.5, 3.0, 2.5, 2.5, 3.0, 3.0, 3.0, 2.5, 2.5, 2.5, 2.5, 3.0, 3.0, 2.5, 2.5, 2.5, 3.0, 2.5, 3.0, 2.5, 3.0],
-                     lv1: [3, 2, 3, 3, 3, 4, 3, 4, 3, 3, 3, 3, 4, 5, 4, 4, 4, 2, 4, 4, 3, 3, 4, 3, 3, 3],
-                     lv2: [1, 2, 3, 2, 2, 3, 3, 3, 3, 2, 2, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 3, 2, 3, 2],
-                     cg: [0, 0, 3, 3, 3, 3, 4, 3, 3, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 4, 3, 3, 3, 3],
-                     droit: [3.0, 2.5, 2.5, 2.5, 2.5, 2.5, 3.0, 2.5, 2.5, 3.0, 3.0, 3.0, 2.5, 2.5, 2.5, 2.5, 3.0, 3.0, 2.5, 2.5, 2.5, 3.0, 2.5, 3.0, 2.5, 3.0]
+                     math: [6, 6, 4, 5, 6, 4, 3, 3, 4, 5, 3, 3, 5, 5, 8, 3, 6, 5, 3, 6, 3, 3, 4, 6, 3, 6],
+                     philo: [3, 4, 4, 3, 3, 3, 4, 5, 4, 4, 4, 6, 4, 4, 2, 4, 4, 3, 3, 4, 3, 3, 4, 3, 4, 2],
+                     mgmt: [6, 6, 7, 8, 7, 10, 8, 7, 8, 6, 8, 7, 7, 6, 8, 8, 6, 9, 9, 6, 9, 9, 9, 7, 7, 8],
+                     eco: [3.0, 2.5, 2.5, 2.5, 3.0, 3.0, 3.0, 2.5, 2.5, 3.0, 2.5, 2.5, 2.5, 3.0, 3.0, 3.0, 2.5, 2.5, 3.0, 2.5, 2.5, 2.5, 2.5, 3.0, 3.0, 3.0],
+                     lv1: [3, 2, 4, 3, 3, 3, 3, 4, 3, 4, 4, 4, 4, 4, 2, 3, 4, 3, 3, 3, 4, 4, 3, 3, 3, 3],
+                     lv2: [1, 2, 3, 3, 2, 2, 3, 3, 3, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 2, 2, 3, 2],
+                     cg: [0, 0, 3, 3, 3, 2, 3, 3, 3, 3, 3, 3, 3, 3, 2, 4, 3, 3, 4, 3, 3, 3, 3, 3, 4, 3],
+                     droit: [3.0, 2.5, 2.5, 2.5, 3.0, 3.0, 3.0, 2.5, 2.5, 3.0, 2.5, 2.5, 2.5, 3.0, 3.0, 3.0, 2.5, 2.5, 3.0, 2.5, 2.5, 2.5, 2.5, 3.0, 3.0, 3.0]
                         },
                    sommeCoeff: [25, 25, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30]
               },
          eco: {
-                   matieres: ["cg", "lv1", "esh", "philo", "math", "lv2"],
+                   matieres: ["cg", "philo", "esh", "math", "lv1", "lv2"],
                    coeff: {
-                     math: [4, 5, 4, 4, 4, 3, 3, 4, 5, 4, 8, 4, 4, 8, 6, 7, 8, 9, 3, 8, 5, 3, 3, 4, 4, 7],
-                     philo: [5, 4, 5, 6, 4, 4, 4, 4, 4, 4, 5, 6, 4, 5, 5, 5, 6, 2, 5, 6, 5, 5, 4, 4, 5, 5],
-                     cg: [3, 3, 3, 3, 3, 3, 4, 3, 4, 5, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 5, 4, 3],
-                     esh: [6, 6, 7, 7, 7, 8, 7, 6, 7, 7, 6, 6, 6, 7, 8, 7, 7, 8, 8, 7, 7, 6, 8, 7, 7, 8],
-                     lv1: [4, 4, 6, 6, 7, 7, 7, 8, 6, 5, 5, 7, 8, 5, 5, 5, 4, 4, 7, 4, 6, 7, 7, 5, 6, 4],
-                     lv2: [3, 3, 5, 4, 5, 5, 5, 5, 4, 5, 3, 3, 5, 2, 3, 3, 2, 4, 4, 2, 4, 6, 5, 5, 4, 3]
+                     math: [4, 5, 4, 5, 4, 8, 4, 4, 4, 8, 6, 3, 7, 8, 9, 3, 8, 5, 3, 5, 3, 3, 4, 4, 3, 7],
+                     philo: [5, 4, 4, 4, 4, 5, 6, 4, 5, 5, 5, 5, 5, 6, 2, 5, 6, 5, 5, 5, 4, 4, 6, 4, 4, 5],
+                     cg: [3, 3, 3, 4, 5, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 5, 4, 3],
+                     esh: [6, 6, 6, 7, 7, 6, 6, 6, 7, 7, 8, 8, 7, 7, 8, 7, 7, 7, 6, 7, 8, 8, 7, 7, 7, 8],
+                     lv1: [4, 4, 8, 6, 5, 5, 7, 8, 6, 5, 5, 7, 5, 4, 4, 7, 4, 6, 7, 6, 7, 7, 6, 5, 7, 4],
+                     lv2: [3, 3, 5, 4, 5, 3, 3, 5, 5, 2, 3, 4, 3, 2, 4, 5, 2, 4, 6, 4, 5, 5, 4, 5, 5, 3]
                         },
                    sommeCoeff: [25, 25, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30]
               }
          }
 };
+
 
     /* Visibilité des matières en fonction de la filière*/
     (function () {

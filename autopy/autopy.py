@@ -133,12 +133,20 @@ def get_page_as_element(url):
 
 
 def clean_header(in_str):
+    """ remove part of string to rewrite uniform header
+    """
     to_remove = ['EDHEC',  # must be before HEC
                  'HEC',
                  'ESCP Europe',
                  'ESC',
                  'ESSEC',
                  'EMLyon',
+                 'emlyon',
+                 'SKEMA',
+                 'GRENOBLE',
+                 'STRASBOURG',
+                 'LA ROCHELLE',
+                 'SCBS',
                  'ELVi',
                  'IENA',
                  '/']
@@ -158,13 +166,13 @@ def school2id(sstr):
          'NEOMA Business School',
          'KEDGE Business School',
          'École de Management de NORMANDIE',
-         'ESC LA ROCHELLE',
+         'LA ROCHELLE business school',
          'Groupe ESC CLERMONT',
          'ISC PARIS Business School',
          'SOUTH CHAMPAGNE BUSINESS SCHOOL',
          'EM Strasbourg Business School',
-         'MONTPELLIER Business School',
-         'Rennes School of Business',
+         'Montpellier Business School',
+         'RENNES School of Business',
          'AUDENCIA Business School',
          'BREST Business School',
          'BSB Burgundy School of Business',
@@ -173,16 +181,17 @@ def school2id(sstr):
          'ESCP Europe',
          'ESSEC Business School',
          'GRENOBLE École de Management',
-         'Groupe ESC PAU',
+         'ESC PAU Business School',
          'HEC Paris',
          'ICN Business School',
-         'INSEEC Paris-Bordeaux-Lyon',
+         'INSEEC school of business and economics',
          'ISG International Business School',
          'SKEMA Business School',
-         'TELECOM École de Management',
+         'institut mines-télécom business school',
          'TOULOUSE Business School'
          ]
 
+    low_poss_str = [ x.lower() for x in possible_sstr]
     ids = [
         "neoma",
         "kedge",
@@ -212,7 +221,7 @@ def school2id(sstr):
         "toulousebs"
         ]
 
-    return ids[possible_sstr.index(sstr)]
+    return ids[low_poss_str.index(sstr.lower())]
 
 def epreuves2matieres(mstr):
 
@@ -232,12 +241,12 @@ def epreuves2matieres(mstr):
         if mstr in epreuve[matiere]:
             return matiere
 
-    print(mstr + ' -> Nothing found')
+    print('Course "' + mstr + '" -> Nothing found')
     return mstr
 
 
 def get_bce_dict(bce_url_key):
-    document = get_page_as_element(bce_url_key)
+    document = get_page_as_element(bce_url_key) # body
 #    document
 
     table = document.find(".//{http://www.w3.org/1999/xhtml}table")
@@ -348,7 +357,7 @@ def get_bce(bce_url):
     ecoles['id'] = []
     ecoles['filiere'] = {}
 
-    bce_url = "http://concours-bce.com/epreuves_ecrites/"
+#    bce_url = "http://concours-bce.com/epreuves_ecrites/"
     keys = ['ece', 'ecs', 'ect']
 
 
@@ -372,7 +381,7 @@ def get_bce(bce_url):
 
 def add_dict(dik, dik2):
     for k in dik:
-        if isinstance(dik[k], type(list())):
+        if isinstance(dik[k], list):
             dik[k] += dik2[k]
             if k == 'matieres':
                 dik[k] = list(set(dik[k]))
@@ -380,6 +389,7 @@ def add_dict(dik, dik2):
 #            print(type(dik[k]))
             dik[k] = add_dict(dik[k], dik2[k])
     return dik
+
 
 def print_list_str(dik, key, offset=0, last=False):
     mstr = offset*' ' + key + ': ' + re.sub("'", '"', repr(dik[key]))
@@ -428,12 +438,12 @@ if __name__ == "__main__":
     ecricome_url = "https://www.ecricome.org/" \
         + "epreuves-et-coefficients-ecricome-prepa"
     ecricome = build_ecricome_table(ecricome_url)
-    print(repr(ecricome))
+#    print(repr(ecricome))
 
 
     bce_url = "http://concours-bce.com/epreuves_ecrites/"
     bce = get_bce(bce_url)
-    print(repr(bce))
+#    print(repr(bce))
 
     ecoles = add_dict(ecricome, bce)
     ecoles['filiere']['tech']['matieres'].append('droit')
@@ -442,7 +452,7 @@ if __name__ == "__main__":
     ecoles['filiere']['tech']['coeff']['droit'] = \
         ecoles['filiere']['tech']['coeff']['eco']
 
-    print(ecoles)
+#    print(ecoles)
 
 
 
