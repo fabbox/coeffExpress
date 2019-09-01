@@ -180,7 +180,7 @@ def school2id(sstr):
          'emlyon business school',
          'ESCP Europe',
          'ESSEC Business School',
-         'GRENOBLE École de Management',
+         'GRENOBLE Ecole de Management',
          'ESC PAU Business School',
          'HEC Paris',
          'ICN Business School',
